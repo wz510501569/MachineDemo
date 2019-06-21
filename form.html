@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap 4 Demo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Demo</h2>
+  <form action="http://localhost/wu/form.php" method="post">
+	<div class="form-group">
+      <label for="first-name">First Name:</label>
+      <input type="text" class="form-control" id="first-name" name="first-name" placeholder="Enter Your First Name">
+    </div>
+	<div class="form-group">
+      <label for="last-name">Last Name:</label>
+      <input type="text" class="form-control" id="last-name" name="last-name" placeholder="Enter Your Last Name">
+    </div>
+	<div class="row">
+		<div class="form-group col-9">
+			<label for="email">Email:(This Email address will receive a verification code)</label>
+			<input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+		</div>
+		<div class="form-group col-3 text-center m-auto">
+      <button type="button" id="send-code" onclick="sendcode()" class="btn btn-primary">Send Code</button>
+    </div>
+	</div>
+	<div class="form-group">
+      <label for="code">Verification Code</label>
+      <input type="text" class="form-control" id="code" name="code" placeholder="Enter Received Verification code">
+    </div>
+	<div class="form-group">
+      <label for="country">Country:</label>
+		<select class="form-control" id="country" name="country">
+			<option value='0'>Select Country</option>
+			<option value='1'>Unite States</option>
+			<option value='2'>Canada</option>
+			<option value='3'>China</option>
+		</select>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd" name="password" placeholder="Enter password">
+    </div>
+	<div class="form-group">
+		<label for="brief">Brief:</label>
+		<textarea name="brief" class="form-control" rows="5" id="brief"></textarea>
+	</div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+
+<script>
+function sendcode(){
+    var email = $.trim( $('#email').val() );
+    if(email==''){
+      alert('Please Enter Your Email Address');return false;
+    }
+    var emailRex = /^[\w\-]+@[\w\-]+(\.[a\w\-]+)+$/;
+
+    if(!emailRex.test(email)){
+      alert('Please Enter correct Email');return false;
+    }
+
+    $.ajax({
+      url:'./sendcode.php',
+      type:'post',
+      data:{email:email},
+      dataType:'json',
+      success:function (res){
+          alert(res.msg);
+      }
+    });
+}
+
+</script>
+</body>
+</html>
